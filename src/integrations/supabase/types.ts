@@ -26,6 +26,7 @@ export type Database = {
           task_description: string
           task_id: string
           timestamp: string
+          transaction_fee: number
         }
         Insert: {
           block_index: number
@@ -38,6 +39,7 @@ export type Database = {
           task_description: string
           task_id: string
           timestamp?: string
+          transaction_fee?: number
         }
         Update: {
           block_index?: number
@@ -50,6 +52,7 @@ export type Database = {
           task_description?: string
           task_id?: string
           timestamp?: string
+          transaction_fee?: number
         }
         Relationships: []
       }

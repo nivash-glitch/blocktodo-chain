@@ -14,6 +14,17 @@ interface Block {
   timestamp: string;
   previous_hash: string;
   current_hash: string;
+  transaction_fee: number;
+}
+
+function calculateTransactionFee(blockType: string): number {
+  // Different operations have different fees
+  const fees: Record<string, number> = {
+    'ADD': 0.001,
+    'COMPLETE': 0.0005,
+    'DELETE': 0.0003,
+  };
+  return fees[blockType] || 0.001;
 }
 
 async function calculateHash(block: Omit<Block, 'current_hash'>): Promise<string> {
@@ -25,6 +36,7 @@ async function calculateHash(block: Omit<Block, 'current_hash'>): Promise<string
     block_type: block.block_type,
     timestamp: block.timestamp,
     previous_hash: block.previous_hash,
+    transaction_fee: block.transaction_fee,
   });
   
   const encoder = new TextEncoder();
@@ -69,6 +81,7 @@ Deno.serve(async (req) => {
 
     switch (operation) {
       case 'add_task': {
+        const fee = calculateTransactionFee('ADD');
         newBlock = {
           block_index: nextBlockIndex,
           task_id,
@@ -77,11 +90,13 @@ Deno.serve(async (req) => {
           block_type: 'ADD',
           timestamp,
           previous_hash: previousHash,
+          transaction_fee: fee,
         };
         break;
       }
 
       case 'complete_task': {
+        const fee = calculateTransactionFee('COMPLETE');
         newBlock = {
           block_index: nextBlockIndex,
           task_id,
@@ -90,11 +105,13 @@ Deno.serve(async (req) => {
           block_type: 'COMPLETE',
           timestamp,
           previous_hash: previousHash,
+          transaction_fee: fee,
         };
         break;
       }
 
       case 'delete_task': {
+        const fee = calculateTransactionFee('DELETE');
         newBlock = {
           block_index: nextBlockIndex,
           task_id,
@@ -103,6 +120,7 @@ Deno.serve(async (req) => {
           block_type: 'DELETE',
           timestamp,
           previous_hash: previousHash,
+          transaction_fee: fee,
         };
         break;
       }

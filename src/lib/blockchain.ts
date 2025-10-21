@@ -11,6 +11,7 @@ export interface BlockchainBlock {
   previous_hash: string;
   current_hash: string;
   created_at: string;
+  transaction_fee: number;
 }
 
 export async function addTask(taskDescription: string) {

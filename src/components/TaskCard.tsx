@@ -44,8 +44,13 @@ export function TaskCard({ block, onComplete, onDelete, isLoading }: TaskCardPro
               <Link2 className="w-3 h-3" />
               <span className="truncate">Prev: {block.previous_hash.substring(0, 16)}...</span>
             </div>
-            <div className="text-muted-foreground">
-              {new Date(block.timestamp).toLocaleString()}
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-muted-foreground">
+                {new Date(block.timestamp).toLocaleString()}
+              </span>
+              <span className="text-primary font-semibold">
+                Fee: {block.transaction_fee.toFixed(4)} ETH
+              </span>
             </div>
           </div>
         </div>

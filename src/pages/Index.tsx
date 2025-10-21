@@ -119,6 +119,7 @@ const Index = () => {
   };
 
   const activeTasks = getLatestTaskState(blocks);
+  const totalFees = blocks.reduce((sum, block) => sum + Number(block.transaction_fee), 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -180,7 +181,7 @@ const Index = () => {
 
         {/* Stats Footer */}
         <div className="mt-12 pt-8 border-t border-border">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
             <div className="p-4 bg-card/50 rounded-lg border border-border">
               <div className="text-3xl font-bold text-primary font-mono">{blocks.length}</div>
               <div className="text-sm text-muted-foreground">Total Blocks</div>
@@ -194,6 +195,10 @@ const Index = () => {
                 {activeTasks.filter(b => b.status === 'completed').length}
               </div>
               <div className="text-sm text-muted-foreground">Completed</div>
+            </div>
+            <div className="p-4 bg-card/50 rounded-lg border border-border">
+              <div className="text-3xl font-bold text-primary font-mono">{totalFees.toFixed(4)}</div>
+              <div className="text-sm text-muted-foreground">Total Fees (ETH)</div>
             </div>
           </div>
         </div>
